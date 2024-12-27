@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    width: 100%;
+    height: 100vh;
+    background-color: blueviolet;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    padding: 2rem 0;
+    color: white;
+}
+
+form {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    position: relative;
+    width: 20rem;
+    height: 20rem;
+    padding: .8rem;
+    background-color: rgb(220, 196, 241);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.15); /* Soft shadow effect */
+    transition: box-shadow 0.3s ease; /* Smooth shadow transition on focus */
+}
+
+input {
+    width: 100%;
+    font-size: 15px;
+    padding: .4rem;
+    margin: .8rem 0;
+    border: none;
+    outline: none;
+    color: black;
+    border-bottom: 1px solid rgb(224, 210, 234);
+    background:transparent;
+}
+
+button {
+    border: none;
+    outline: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: black;
+    color: white;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+button[id="home"]{
+    margin-top: 3rem;
+}
+
+button[id="form-button"]{
+  border: 1px solid aqua;
+  position: absolute;
+  bottom: 1rem;
+  left: 15rem;
+  color: black;
+  font-weight: bold;
+  background-color: aqua;
+  transition: .5s ease;
+}
+
+button[id="form-button"]:hover{
+    background: rgb(58, 198, 198);
+    border: 1px solid rgb(25, 204, 204);
+}
+</style>
+<body>
+    <h1>Add Product</h1>
+    <form id="addProduct" enctype="multipart/form-data" autocomplete="off" >
+        <input type="text" id="name" placeholder="product name">
+        <input type="text" id="price" placeholder="price">
+        <input type="text" id="quantity" placeholder="quantity">
+        <input type="text" id="description" placeholder="description"><br>
+        <button type="submit" id="form-button">Add</button>
+    </form>
+    <button id="home"><a href="/">Home</a></button>
+    <script>
+        const form = document.getElementById('addProduct');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const price = document.getElementById('price').value;
+            const quantity = document.getElementById('quantity').value;
+            const description = document.getElementById('description').value;
+
+            try {
+                await fetch('/api/product', {
+                    method : 'POST',
+                    headers : {'Content-Type':'application/json'},
+                    body: JSON.stringify({name, price, quantity, description})
+                });
+                alert('product added successfully.');
+            } catch (error) {
+                console.log(error.message)
+                alert('failed to add product ⚠');
+            }
+        });
+    </script>
+</body>
+</html>
+
